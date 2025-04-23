@@ -1,6 +1,7 @@
 package edu.cjc.smsa.app.serviceimpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,23 @@ public class StudentServiceImpl implements StudentServiceI {
 	@Override
 	public List<Student> searchStudentsByBatch(String batchNumber) {
 		return sr.findAllByBatchNumber(batchNumber);
+	}
+
+	@Override
+	public Student getSingleObject(int rollno) {
+		return sr.findById(rollno).get();
+	}
+
+	@Override
+	public void updateStudentFees(int rollno, double ammount) {
+		 Student   s  = sr.findById(rollno).get();
+		 s.setFeesPaid(s.getFeesPaid()+ammount);
+             sr.save(s);		             
+	}
+
+	@Override
+	public void deleteStudent(int rollno) {
+                 sr.deleteById(rollno);		
 	}
 
 }
